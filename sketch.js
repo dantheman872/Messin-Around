@@ -4,9 +4,9 @@ let diameter = []
 let density = []
 let ySpeed = []
 let xSpeed = []
-let lineX = []
-let lineY = []
-let ballNo = 1
+let lineXY = []
+let ballXY;
+let ballNo = 10
 let gravityAcceleration = 0.4
 
 function setup() {
@@ -18,15 +18,15 @@ function setup() {
     }  
     for(let i = 0; i < 450; i++){
 
-        lineY.push(round((1.5 * i)+300))
-        lineX.push(i)
-        
+        lineXY.push(int(str(i)+ str(round((1.5 * i)+300))))        
     }  
-    console.log(lineX +lineY)
+    console.log(lineXY)
 }
 
 function draw() {
-
+    
+    
+    console.log(ballXY)
     background(220)   
     fill(170)
     triangle(0, height/2, width * 3/4, height, 0, height)
@@ -35,6 +35,7 @@ function draw() {
 
     for(let i = 0; i < xPosition.length; i++){
 
+        ballXY = int((str(xPosition[i])) + (str(yPosition[i])))
         ySpeed[i] += gravityAcceleration
         yPosition[i] += ySpeed[i]
         xPosition[i] += xSpeed[i]
@@ -79,7 +80,7 @@ function draw() {
        // rect(500,500,500,500)
         }
 
-        if(lineX.includes(round(xPosition[i])) && lineY.includes(round(yPosition[i]))){
+        if(lineXY.includes(ballXY)){
 
             rect(500,500,500,500)
         }

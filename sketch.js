@@ -4,17 +4,34 @@ let diameter = []
 let density = []
 let ySpeed = []
 let xSpeed = []
-let ballNo = 50
+let lineX = []
+let lineY = []
+let ballNo = 1
 let gravityAcceleration = 0.4
 
 function setup() {
 
-    createCanvas(400, 400)
+    createCanvas(600, 600)
+    for(let p = 0; p < ballNo; p ++){
+
+        spawnCircle(random(0,width), 0, random(-10, 10), random(-10, 10))        
+    }  
+    for(let i = 0; i < 450; i++){
+
+        lineY.push(round((1.5 * i)+300))
+        lineX.push(i)
+        
+    }  
+    console.log(lineX +lineY)
 }
 
 function draw() {
 
     background(220)   
+    fill(170)
+    triangle(0, height/2, width * 3/4, height, 0, height)
+    
+    
 
     for(let i = 0; i < xPosition.length; i++){
 
@@ -56,15 +73,34 @@ function draw() {
 
         fill(200,0,0)
         ellipse(xPosition[i], yPosition[i], diameter[i], diameter[i])
+
+        if(hitLine(xPosition[i], yPosition[i], diameter[i]) === true){
+
+       // rect(500,500,500,500)
+        }
+
+        if(lineX.includes(round(xPosition[i])) && lineY.includes(round(yPosition[i]))){
+
+            rect(500,500,500,500)
+        }
     }
 }
 
 function mousePressed(){
 
-    for(let p = 0; p < ballNo; p ++){
+    // for(let p = 0; p < ballNo; p ++){
 
-        spawnCircle(mouseX, mouseY, random(-10, 10), random(-10, 10))        
-    }    
+    //     spawnCircle(mouseX, mouseY, random(-10, 10), random(-10, 10))        
+    // }    
+
+    for(let i = 0; i < xPosition.length; i++){
+
+        if(xPosition[i] < mouseX + 50 && xPosition[i] > mouseX - 50 && yPosition[i] < mouseY + 50 && yPosition[i] > mouseY - 50){
+
+            xSpeed[i] = random(-10,10)
+            ySpeed[i] = random(-10,10)
+        }
+    }
 }
 
 function spawnCircle(x, y, yDir, xDir){
@@ -75,4 +111,14 @@ function spawnCircle(x, y, yDir, xDir){
     ySpeed.push(yDir)
     density.push(1.25 + random(0.01,0.1))
     diameter.push(15 + random(-5,5))
+}
+
+function hitLine(cx, cy, cd){
+
+    //  0, 300, 450, 600
+    //y = -1.5x + 300
+    if(cy < (-1.5 * cx) + 300){
+
+        return true
+    }
 }
